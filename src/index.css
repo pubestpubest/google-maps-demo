@@ -1,0 +1,4 @@
+@import "tailwindcss";
+.map-container {
+  height: 100vh;
+}

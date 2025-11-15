@@ -64,7 +64,32 @@ export function AppDataProvider({ children }) {
     } : t));
   }, []);
 
-  const value = useMemo(() => ({ trips, setTrips, setOrderLocation, updateOrderDetails }), [trips, setOrderLocation, updateOrderDetails]);
+  const createTrip = useCallback((name) => {
+    const id = `TRIP-${Date.now()}`;
+    setTrips(prev => [...prev, { id, name: name || id, orders: [] }]);
+    return id;
+  }, []);
+
+  const createOrder = useCallback((tripId, partial) => {
+    const id = `ORD-${Date.now()}`;
+    setTrips(prev => prev.map(t => t.id === tripId ? {
+      ...t,
+      orders: [
+        ...t.orders,
+        {
+          id,
+          name: partial?.name || id,
+          tel: partial?.tel || '',
+          locationName: partial?.locationName || '',
+          products: partial?.products || [],
+          location: null,
+        }
+      ]
+    } : t));
+    return id;
+  }, []);
+
+  const value = useMemo(() => ({ trips, setTrips, setOrderLocation, updateOrderDetails, createTrip, createOrder }), [trips, setOrderLocation, updateOrderDetails, createTrip, createOrder]);
   return (
     <AppDataContext.Provider value={value}>{children}</AppDataContext.Provider>
   );

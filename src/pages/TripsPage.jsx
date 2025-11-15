@@ -1,10 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppData } from '@/data/AppDataContext.jsx';
 import Header from '@/components/Header.jsx';
 
 export default function TripsPage() {
-  const { trips } = useAppData();
+  const { trips, createTrip } = useAppData();
+  const navigate = useNavigate();
+
+  const handleCreateTrip = () => {
+    const name = window.prompt('Trip name');
+    const id = createTrip(name || undefined);
+    navigate(`/trips/${encodeURIComponent(id)}/orders`);
+  };
 
   return (
     <>
@@ -12,7 +19,10 @@ export default function TripsPage() {
       <div className="p-6 max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-2xl font-semibold">Trips</h1>
-          <Link to="/dashboard" className="bg-gray-800 hover:bg-black text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard" className="bg-gray-800 hover:bg-black text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</Link>
+            <button onClick={handleCreateTrip} className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-md text-sm font-medium">Create Trip</button>
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden">

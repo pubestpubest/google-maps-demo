@@ -1,0 +1,22 @@
+# Exclude local dependencies and build outputs
+node_modules
+dist
+
+# VCS and editor files
+.git
+.gitignore
+.DS_Store
+*.log
+*.tmp
+.idea
+.vscode
+
+# Env files (handled outside image)
+.env
+.env.local
+.env.*.local
+
+# Docker local artifacts
+docker-compose.override.yml
+
+

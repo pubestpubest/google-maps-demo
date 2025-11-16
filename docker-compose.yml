@@ -1,0 +1,25 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Pass through to Vite at build time; ensure it's set in your shell or .env
+        VITE_GOOGLE_MAPS_API_KEY: ${VITE_GOOGLE_MAPS_API_KEY}
+    image: google-maps-demo:latest
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+    environment:
+      # For future extensions if needed inside Nginx or runtime
+      - NODE_ENV=production
+    depends_on: []
+    # If you plan to use /api reverse proxy to a backend service,
+    # define that service here and update nginx.conf proxy_pass host/port.
+    # Example:
+    # backend:
+    #   image: your-backend-image
+    #   ports:
+    #     - "8080:8080"
+
+
